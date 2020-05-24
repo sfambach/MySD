@@ -22,9 +22,9 @@
 #endif
 
 #include <SPI.h>
-#include <utility/SdFat.h>
-#include <utility/SdFatUtil.h>
-#include <utility/Sd2Card.h>
+#include "SdFat.h"
+#include "SdFatUtil.h"
+#include "Sd2Card.h"
 
 #define FILE_READ O_READ
 #define FILE_WRITE (O_READ | O_WRITE | O_CREAT)
