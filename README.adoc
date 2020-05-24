@@ -1,3 +1,12 @@
+This is a small enhancement of the original library to work with the TTGO RS v 1.2
+I found a lot of examles that are using a so called MySD library, but could not determine the source of it. 
+
+So I forked the original lib and merged the differences.
+
+Thanks to the unknow programmer and thanks to William Greiman, for this lib.
+
+If you want, visit also http://www.fambach.net for more infomations
+
 = SD Library for Arduino =
 
 image:https://travis-ci.org/arduino-libraries/SD.svg?branch=master[Build Status, link=https://travis-ci.org/arduino-libraries/SD]
