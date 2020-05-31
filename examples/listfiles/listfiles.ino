@@ -4,12 +4,14 @@
   This example shows how print out the files in a
   directory on a SD card
 
+  Modified to work with mySD and ESP32/ESP8266
+
   The circuit:
    SD card attached to SPI bus as follows:
- ** MOSI - pin 11
- ** MISO - pin 12
- ** CLK - pin 13
- ** CS - pin 4 (for MKRZero SD: SDCARD_SS_PIN)
+ const int MY_CS = 13;
+const int MY_MISO = 2;
+const int MY_MOSI = 15;
+const int MY_CLOCK = 14;
 
   created   Nov 2010
   by David A. Mellis
@@ -21,23 +23,27 @@
   This example code is in the public domain.
 
 */
-#include <SPI.h>
-#include <SD.h>
+#include <mySD.h>
+
+const int MY_CS = 13;
+const int MY_MISO = 2;
+const int MY_MOSI = 15;
+const int MY_CLOCK = 14;
 
 File root;
 
 void setup() {
   // Open serial communications and wait for port to open:
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
   Serial.print("Initializing SD card...");
 
-  if (!SD.begin(4)) {
+ if (!SD.begin(MY_CS, MY_MOSI,MY_MISO, MY_CLOCK)) {            
     Serial.println("initialization failed!");
-    while (1);
+    return;
   }
   Serial.println("initialization done.");
 
@@ -75,6 +81,5 @@ void printDirectory(File dir, int numTabs) {
     entry.close();
   }
 }
-
 
 

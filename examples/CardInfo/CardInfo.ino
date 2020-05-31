@@ -1,11 +1,14 @@
 /*
   SD card test
 
+  Modified to work with mySD and ESP32/ESP8266
+  
+
   This example shows how use the utility libraries on which the'
   SD library is based in order to get info about your SD card.
   Very useful for testing a card when you're not sure whether its working or not.
 
-  The circuit:
+  The Default circuit:
     SD card attached to SPI bus as follows:
  ** MOSI - pin 11 on Arduino Uno/Duemilanove/Diecimila
  ** MISO - pin 12 on Arduino Uno/Duemilanove/Diecimila
@@ -13,31 +16,34 @@
  ** CS - depends on your SD card shield or module.
  		Pin 4 used here for consistency with other Arduino examples
 
+    Here the manual setting is used for the SPI bus to work with ESP32/ESP8266
+
 
   created  28 Mar 2011
   by Limor Fried
   modified 9 Apr 2012
   by Tom Igoe
+  modified 25 May 2020
+  by Stefan Fambach http://www.fambach.net
 */
-// include the SD library:
-#include <SPI.h>
-#include <SD.h>
+
+// include the mySD library:
+#include <mySD.h>
 
 // set up variables using the SD utility library functions:
 Sd2Card card;
 SdVolume volume;
 SdFile root;
 
-// change this to match your SD shield or module;
-// Arduino Ethernet shield: pin 4
-// Adafruit SD shields and modules: pin 10
-// Sparkfun SD shield: pin 8
-// MKRZero SD: SDCARD_SS_PIN
-const int chipSelect = 4;
+const int MY_CS = 13;
+const int MY_MISO = 2;
+const int MY_MOSI = 15;
+const int MY_CLOCK = 14;
+
 
 void setup() {
   // Open serial communications and wait for port to open:
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
@@ -47,7 +53,7 @@ void setup() {
 
   // we'll use the initialization code from the utility libraries
   // since we're just testing if the card is working!
-  if (!card.init(SPI_HALF_SPEED, chipSelect)) {
+  if (!card.init(SPI_HALF_SPEED, MY_CS, MY_MOSI, MY_MISO, MY_CLOCK)) {
     Serial.println("initialization failed. Things to check:");
     Serial.println("* is a card inserted?");
     Serial.println("* is your wiring correct?");
